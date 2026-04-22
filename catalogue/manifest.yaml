@@ -37,14 +37,14 @@ spec:
         tier: backend
         component: catalogue
     spec:
-      envFrom:
-      - configMapRef:
-          name: catalogue
-          
+      
       containers:
       - name: catalogue
         image: sreenivaschitti/catalogue:1.0.0
         imagePullPolicy: Always
+        envFrom:
+        - configMapRef:
+            name: catalogue
         resources:
           requests:
             memory: "64Mi"
