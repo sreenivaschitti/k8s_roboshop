@@ -47,12 +47,13 @@ spec:
         - configMapRef:
             name: user
         resources:
-          requests:
-            memory: "64Mi"
-            cpu: "250m"
-          limits:
-            memory: "128Mi"
-            cpu: "500m"
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
         readinessProbe:
           tcpSocket:
            port: 8080
