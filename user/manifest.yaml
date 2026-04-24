@@ -47,7 +47,6 @@ spec:
         - configMapRef:
             name: user
         resources:
-          resources:
             requests:
               memory: "256Mi"
               cpu: "250m"
