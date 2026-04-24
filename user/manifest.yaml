@@ -12,6 +12,8 @@ data:
     MONGO: "true"
     MONGO_URL: "mongodb://mongodb:27017/users"
     REDIS_HOST: "redis"
+    SERVICE_NAME: "user"
+    PORT: "8080"
 ---
 apiVersion: apps/v1
 kind: Deployment
