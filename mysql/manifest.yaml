@@ -1,0 +1,75 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+  namespace: roboshop
+  labels:
+    project: roboshop
+    tier: db
+    component: mysql
+
+spec:
+  replicas: 1
+  selector:
+     matchLabels:
+      project: roboshop
+      tier: db
+      component: mysql
+
+  template:
+    metadata:
+      labels:
+        project: roboshop
+        tier: db
+        component: mysql
+    spec:
+      
+      containers:
+      - name: mysql
+        image: sreenivaschitti/mysql:1.0.0
+        imagePullPolicy: Always
+    
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        readinessProbe:
+          tcpSocket:
+           port: 8080
+          failureThreshold: 2
+          periodSeconds: 10
+          initialDelaySeconds: 5
+
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          failureThreshold: 2
+          periodSeconds: 10
+           
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+  namespace: roboshop
+  labels:
+    project: roboshop
+    tier: db
+    component: mysql
+
+spec:
+  selector:
+    project: roboshop
+    tier: db
+    component: mysql
+
+  ports:
+  - protocol: TCP
+    port: 3306
+    targetPort: 3306

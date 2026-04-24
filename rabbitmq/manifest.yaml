@@ -1,0 +1,93 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rabbimq
+  namespace: roboshop
+  labels:
+    project: roboshop
+    tier: db
+    component: rabbimq
+
+data:
+   RABBITMQ_DEFAULT_USER: roboshop
+   RABBITMQ_DEFAULT_PASS: roboshop123 
+   container_name: rabbitmq
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rabbimq
+  namespace: roboshop
+  labels:
+    project: roboshop
+    tier: db
+    component: rabbimq
+
+spec:
+  replicas: 1
+  selector:
+     matchLabels:
+      project: roboshop
+      tier: db
+      component: rabbimq
+
+  template:
+    metadata:
+      labels:
+        project: roboshop
+        tier: db
+        component: rabbimq
+    spec:
+      
+      containers:
+      - name: rabbimq
+        image: sreenivaschitti/rabbimq:1.0.0
+        imagePullPolicy: Always
+        envFrom:
+        - configMapRef:
+            name: rabbimq
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        readinessProbe:
+          tcpSocket:
+           port: 8080
+          failureThreshold: 2
+          periodSeconds: 10
+          initialDelaySeconds: 5
+
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          failureThreshold: 2
+          periodSeconds: 10
+           
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbimq
+  namespace: roboshop
+  labels:
+    project: roboshop
+    tier: db
+    component: rabbimq
+
+spec:
+  selector:
+    project: roboshop
+    tier: db
+    component: rabbimq
+
+  ports:
+  - protocol: TCP
+    port: 5672
+    targetPort: 5672
