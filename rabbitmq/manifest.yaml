@@ -43,7 +43,7 @@ spec:
       
       containers:
       - name: rabbitmq
-        image: sreenivaschitti/rabbitmq:1.0.0
+        image: rabbitmq:3
         imagePullPolicy: Always
         envFrom:
         - configMapRef:
