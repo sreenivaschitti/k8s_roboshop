@@ -47,11 +47,11 @@ spec:
             name: shipping
         resources:
           requests:
-            memory: "64Mi"
-            cpu: "250m"
+            cpu: "200m"
+            memory: "256Mi"
           limits:
-            memory: "128Mi"
-            cpu: "500m"
+            cpu: "200m"
+            memory: "256Mi"
 
         readinessProbe:
           # httpGet:
