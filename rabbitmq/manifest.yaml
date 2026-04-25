@@ -1,12 +1,12 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: rabbimq
+  name: rabbitmq
   namespace: roboshop
   labels:
     project: roboshop
     tier: db
-    component: rabbimq
+    component: rabbitmq
 
 data:
    RABBITMQ_DEFAULT_USER: roboshop
@@ -18,12 +18,12 @@ data:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: rabbimq
+  name: rabbitmq
   namespace: roboshop
   labels:
     project: roboshop
     tier: db
-    component: rabbimq
+    component: rabbitmq
 
 spec:
   replicas: 1
@@ -31,23 +31,23 @@ spec:
      matchLabels:
       project: roboshop
       tier: db
-      component: rabbimq
+      component: rabbitmq
 
   template:
     metadata:
       labels:
         project: roboshop
         tier: db
-        component: rabbimq
+        component: rabbitmq
     spec:
       
       containers:
-      - name: rabbimq
-        image: sreenivaschitti/rabbimq:1.0.0
+      - name: rabbitmq
+        image: sreenivaschitti/rabbitmq:1.0.0
         imagePullPolicy: Always
         envFrom:
         - configMapRef:
-            name: rabbimq
+            name: rabbitmq
         resources:
           requests:
             memory: "64Mi"
@@ -74,18 +74,18 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: rabbimq
+  name: rabbitmq
   namespace: roboshop
   labels:
     project: roboshop
     tier: db
-    component: rabbimq
+    component: rabbitmq
 
 spec:
   selector:
     project: roboshop
     tier: db
-    component: rabbimq
+    component: rabbitmq
 
   ports:
   - protocol: TCP
